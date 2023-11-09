@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.song</groupId>
 	<artifactId>resource-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<name>resource-service</name>
 	<description>Microservice Architecture Song project</description>
 	<properties>
@@ -33,7 +33,12 @@
 		<dependency>
 			<groupId>org.apache.tika</groupId>
 			<artifactId>tika-core</artifactId>
-			<version>2.9.0</version>
+			<version>2.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-parser-audiovideo-module</artifactId>
+			<version>2.9.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

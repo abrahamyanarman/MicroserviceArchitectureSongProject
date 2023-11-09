@@ -1,7 +1,7 @@
 package com.song.resourceservice.config;
 
-import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.Parser;
+import org.apache.tika.parser.mp3.Mp3Parser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Configuration;
 public class TikaConfig {
     @Bean
     public Parser audioParser() {
-        return new AutoDetectParser();
+        return new Mp3Parser();
     }
 }

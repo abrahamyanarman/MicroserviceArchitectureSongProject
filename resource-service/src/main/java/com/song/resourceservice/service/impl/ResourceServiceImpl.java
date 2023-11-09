@@ -5,30 +5,20 @@ import com.song.resourceservice.dto.SongDTO;
 import com.song.resourceservice.entity.Resource;
 import com.song.resourceservice.repository.ResourceRepository;
 import com.song.resourceservice.service.ResourceService;
-import io.micrometer.core.instrument.config.validate.InvalidReason;
-import io.micrometer.core.instrument.config.validate.Validated;
-import io.micrometer.core.instrument.config.validate.ValidationException;
 import org.apache.commons.lang.StringUtils;
-import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.multipart.MultipartFile;
-import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -65,11 +55,11 @@ public class ResourceServiceImpl implements ResourceService {
 
             SongDTO songDTO = new SongDTO();
             songDTO.setResourceId(String.valueOf(resource.getId()));
-            songDTO.setAlbum(StringUtils.defaultString(metadata.get("xmpdm:album")));
-            songDTO.setArtist(StringUtils.defaultString(metadata.get("xmpdm:artist")));
-            songDTO.setYear(StringUtils.defaultString(metadata.get("xmpdm:releasedate")));
-            songDTO.setName(StringUtils.defaultString(metadata.get("title")));
-            songDTO.setLength(StringUtils.defaultString(metadata.get("xmpdm:duration")));
+            songDTO.setAlbum(StringUtils.defaultString(metadata.get("xmpDM:album")));
+            songDTO.setArtist(StringUtils.defaultString(metadata.get("xmpDM:albumArtist")));
+            songDTO.setYear(StringUtils.defaultString(metadata.get("xmpDM:releaseDate")));
+            songDTO.setName(StringUtils.defaultString(metadata.get("dc:title")));
+            songDTO.setLength(StringUtils.defaultString(metadata.get("xmpDM:duration")));
             ResponseEntity<Map<String, Long>> songResponse = songServiceClient.createSong(songDTO);
 
             if (songResponse.getStatusCode().is2xxSuccessful()) {
