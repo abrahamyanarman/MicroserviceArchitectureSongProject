@@ -1,0 +1,87 @@
+version: '3'
+services:
+  config-server:
+    build:
+      context: ./config-server
+      dockerfile: Dockerfile
+    networks:
+      - masp
+    env_file:
+      - ./config-server/config-server.env
+    ports:
+      - "8888:8888"
+  postgress-song-service-db:
+    image: postgres:latest
+    env_file:
+      - ./postgress-song-service-db.env
+    networks:
+      - masp
+    volumes:
+      - ./song-service/scripts/schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
+      - ./song-service/scripts/data.sql:/docker-entrypoint-initdb.d/2_data.sql
+    ports:
+      - "5432:5432"
+  postgress-resource-service-db:
+    image: postgres:latest
+    env_file:
+      - ./postgress-resource-service-db.env
+    networks:
+      - masp
+    volumes:
+      - ./resource-service/scripts/schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
+      - ./resource-service/scripts/data.sql:/docker-entrypoint-initdb.d/2_data.sql
+    ports:
+      - "5433:5432"
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    networks:
+      - masp
+    env_file:
+      - ./api-gateway/api-gateway.env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - config-server
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    env_file:
+      - ./eureka-server/eureka-server.env
+    networks:
+      - masp
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config-server
+  song-service:
+    build:
+      context: ./song-service
+      dockerfile: Dockerfile
+    env_file:
+      - ./song-service/song-service.env
+    networks:
+      - masp
+    ports:
+      - "8081:8081"
+    depends_on:
+      - config-server
+      - postgress-song-service-db
+  resource-service:
+    build:
+      context: ./resource-service
+      dockerfile: Dockerfile
+    networks:
+      - masp
+    ports:
+      - "8082:8082"
+    depends_on:
+      - config-server
+      - postgress-resource-service-db
+    env_file:
+      - ./resource-service/resource-service.env
+networks:
+  masp:
+    
