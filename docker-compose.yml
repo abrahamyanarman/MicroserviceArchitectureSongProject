@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 services:
   config-server:
     build:
@@ -10,6 +10,12 @@ services:
       - ./config-server/config-server.env
     ports:
       - "8888:8888"
+    healthcheck:
+      test: "curl --fail --silent localhost:8888/actuator/health/readiness | grep UP || exit 1"
+      interval: 2s
+      timeout: 3s
+      retries: 5
+      start_period: 2s
   postgress-song-service-db:
     image: postgres:latest
     env_file:
@@ -43,7 +49,14 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - config-server
+      config-server:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
+      interval: 2s
+      timeout: 3s
+      retries: 5
+      start_period: 2s
   eureka-server:
     build:
       context: ./eureka-server
@@ -55,7 +68,14 @@ services:
     ports:
       - "8761:8761"
     depends_on:
-      - config-server
+      config-server:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8761/actuator/health/readiness | grep UP || exit 1"
+      interval: 2s
+      timeout: 3s
+      retries: 5
+      start_period: 2s
   song-service:
     build:
       context: ./song-service
@@ -66,9 +86,17 @@ services:
       - masp
     ports:
       - "8081:8081"
+    healthcheck:
+      test: "curl --fail --silent localhost:8081/actuator/health/readiness | grep UP || exit 1"
+      interval: 2s
+      timeout: 3s
+      retries: 5
+      start_period: 2s
     depends_on:
-      - config-server
-      - postgress-song-service-db
+      config-server:
+        condition: service_healthy
+      postgress-song-service-db:
+        condition: service_started
   resource-service:
     build:
       context: ./resource-service
@@ -77,9 +105,17 @@ services:
       - masp
     ports:
       - "8082:8082"
+    healthcheck:
+      test: "curl --fail --silent localhost:8082/actuator/health/readiness | grep UP || exit 1"
+      interval: 2s
+      timeout: 3s
+      retries: 5
+      start_period: 2s
     depends_on:
-      - config-server
-      - postgress-resource-service-db
+      config-server:
+        condition: service_healthy
+      postgress-song-service-db:
+        condition: service_started
     env_file:
       - ./resource-service/resource-service.env
 networks:
