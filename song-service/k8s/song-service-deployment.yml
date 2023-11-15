@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: song-service
+  namespace: k8s-microservice-song-project
+spec:
+  selector:
+    matchLabels:
+      app: song-service
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: song-service
+        owner: armanabr
+    spec:
+      containers:
+        - name: song-service
+          image: armanabr/song-service:0.0.2.3
+          ports:
+            - containerPort: 8081

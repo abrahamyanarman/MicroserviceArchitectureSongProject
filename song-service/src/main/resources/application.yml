@@ -17,9 +17,12 @@ spring:
       hibernate:
         dialect: ${SONG_SERVICE_HIBERNATE_DIALECT:org.hibernate.dialect.H2Dialect}
 eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
   instance:
-    hostname: localhost
-    prefer-ip-address: true
+    preferIpAddress: true
+  #    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+#  instance:
+#    hostname: localhost
+#    prefer-ip-address: true

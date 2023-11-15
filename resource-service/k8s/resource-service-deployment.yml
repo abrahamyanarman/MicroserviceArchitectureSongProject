@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resource-service
+  namespace: k8s-microservice-song-project
+spec:
+  selector:
+    matchLabels:
+      app: resource-service
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: resource-service
+        owner: armanabr
+    spec:
+      containers:
+        - name: resource-service
+          image: armanabr/resource-service:0.0.3.3
+          ports:
+            - containerPort: 8082

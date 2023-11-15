@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+#
+#commonLabels:
+#  app: k8s-microservice-song-project
+
+resources:
+  - api-gateway/k8s/api-gateway-deployment.yml
+  - config-server/k8s/config-server-deployment.yml
+  - eureka-server/k8s/eureka-server-deployment.yml
+  - resource-service/k8s/resource-service-deployment.yml
+  - song-service/k8s/song-service-deployment.yml
+
+  - api-gateway/k8s/api-gateway-service.yml
+  - config-server/k8s/config-server-service.yml
+  - eureka-server/k8s/eureka-server-service.yml
+  - resource-service/k8s/resource-service-service.yml
+  - song-service/k8s/song-service-service.yml
+
+  - namespace.yml

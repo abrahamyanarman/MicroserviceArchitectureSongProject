@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-server
+  namespace: k8s-microservice-song-project
+spec:
+  selector:
+    matchLabels:
+      app: config-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: config-server
+        owner: armanabr
+    spec:
+      containers:
+        - name: config-server
+          image: armanabr/config-server:0.0.2.2
+          ports:
+            - containerPort: 8888

@@ -7,9 +7,13 @@ spring:
     config:
       enabled: false
 eureka:
+  instance:
+    preferIpAddress: true
+  #    hostname: localhost
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    registerWithEureka: false
+    fetchRegistry: false
+
 management:
   endpoints:
     web:
