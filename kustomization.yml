@@ -5,6 +5,10 @@ kind: Kustomization
 #  app: k8s-microservice-song-project
 
 resources:
+  - song-service/k8s/manual-storage-class.yml
+  - song-service/k8s/song-persistent-volume.yml
+  - song-service/k8s/song-persistent-volume-claim.yml
+
   - api-gateway/k8s/api-gateway-deployment.yml
   - config-server/k8s/config-server-deployment.yml
   - eureka-server/k8s/eureka-server-deployment.yml

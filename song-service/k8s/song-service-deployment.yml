@@ -19,3 +19,10 @@ spec:
           image: armanabr/song-service:0.0.2.3
           ports:
             - containerPort: 8081
+          volumeMounts:
+            - name: song-volume
+              mountPath: /song
+      volumes:
+        - name: song-volume
+          persistentVolumeClaim:
+            claimName: song-pvc
