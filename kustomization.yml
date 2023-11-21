@@ -1,10 +1,25 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-#
-#commonLabels:
-#  app: k8s-microservice-song-project
 
 resources:
+  - hostpath-storage-class.yml
+
+  - postgres-resource-service-db-persistent-volume.yml
+  - postgres-resource-service-db-persistent-volume-claim.yml
+  - postgres-song-service-db-persistent-volume.yml
+  - postgres-song-service-db-persistent-volume-claim.yml
+
+  - postgres-resource-service-db-secrets.yml
+  - postgres-song-service-db-secrets.yml
+  - resource-service/k8s/secrets.yml
+  - song-service/k8s/secrets.yml
+
+  - postgres-resource-service-db-stateful-set.yml
+  - postgres-song-service-db-stateful-set.yml
+
+  - postgres-resource-service-db-service.yml
+  - postgres-song-service-db-service.yml
+
   - song-service/k8s/manual-storage-class.yml
   - song-service/k8s/song-persistent-volume.yml
   - song-service/k8s/song-persistent-volume-claim.yml

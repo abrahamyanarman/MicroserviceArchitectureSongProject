@@ -17,6 +17,9 @@ spec:
       containers:
         - name: song-service
           image: armanabr/song-service:0.0.2.3
+          envFrom:
+            - secretRef:
+                name: song-service-secrets
           ports:
             - containerPort: 8081
           volumeMounts:

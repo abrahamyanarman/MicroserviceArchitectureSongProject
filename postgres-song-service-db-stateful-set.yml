@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-song-service-db
+  namespace: k8s-microservice-song-project
+spec:
+  serviceName: "postgres-song-service-db"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-song-service-db
+  template:
+    metadata:
+      labels:
+        app: postgres-song-service-db
+    spec:
+      containers:
+        - name: song-service-db
+          image: postgres:latest
+          envFrom:
+            - secretRef:
+                name: postgres-song-service-db-secrets
+          volumeMounts:
+            - name: song-data
+              mountPath: /song/postgresql/data
+      volumes:
+        - name: song-data
+          persistentVolumeClaim:
+            claimName: song-service-db-pvc
+#  volumeClaimTemplates:
+#    - metadata:
+#        name: data
+#      spec:
+#        accessModes:
+#          - ReadWriteOnce
+#        storageClassName: manual
+#        resources:
+#          requests:
+#            storage: 1Gi

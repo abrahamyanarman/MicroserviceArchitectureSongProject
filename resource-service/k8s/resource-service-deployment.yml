@@ -17,5 +17,8 @@ spec:
       containers:
         - name: resource-service
           image: armanabr/resource-service:0.0.3.3
+          envFrom:
+            - secretRef:
+                name: resource-service-secrets
           ports:
             - containerPort: 8082

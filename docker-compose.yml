@@ -16,10 +16,10 @@ services:
       timeout: 3s
       retries: 5
       start_period: 2s
-  postgress-song-service-db:
+  postgres-song-service-db:
     image: postgres:latest
     env_file:
-      - ./postgress-song-service-db.env
+      - ./postgres-song-service-db.env
     networks:
       - masp
     volumes:
@@ -27,10 +27,10 @@ services:
       - ./song-service/scripts/data.sql:/docker-entrypoint-initdb.d/2_data.sql
     ports:
       - "5432:5432"
-  postgress-resource-service-db:
+  postgres-resource-service-db:
     image: postgres:latest
     env_file:
-      - ./postgress-resource-service-db.env
+      - ./postgres-resource-service-db.env
     networks:
       - masp
     volumes:
@@ -95,7 +95,7 @@ services:
     depends_on:
       config-server:
         condition: service_healthy
-      postgress-song-service-db:
+      postgres-song-service-db:
         condition: service_started
   resource-service:
     build:
@@ -114,7 +114,7 @@ services:
     depends_on:
       config-server:
         condition: service_healthy
-      postgress-song-service-db:
+      postgres-song-service-db:
         condition: service_started
     env_file:
       - ./resource-service/resource-service.env
