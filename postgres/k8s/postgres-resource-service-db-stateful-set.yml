@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-resource-service
+  namespace: k8s-microservice-song-project
+spec:
+  serviceName: "postgres-resource-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-resource-service
+  template:
+    metadata:
+      labels:
+        app: postgres-resource-service
+    spec:
+      containers:
+        - name: postgres-resource-service
+          image: postgres:latest
+          envFrom:
+            - secretRef:
+                name: postgres-resource-service-db-secrets
+          volumeMounts:
+            - name: postgres-resource-storage
+              mountPath: /resource/postgresql/data
+          ports:
+            - containerPort: 5432
+              name: pg-resource-sv
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-resource-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "local-path"
+        resources:
+          requests:
+            storage: 1Gi
