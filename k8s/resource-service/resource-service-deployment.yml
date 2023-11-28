@@ -16,11 +16,32 @@ spec:
     spec:
       containers:
         - name: resource-service
-          image: armanabr/resource-service:0.0.3.6
+          image: armanabr/resource-service:0.0.4
           envFrom:
             - secretRef:
                 name: resource-service-secrets
             - configMapRef:
                 name: rs-pg-db-config
           ports:
-            - containerPort: 8082
+            - name: rs-port
+              containerPort: 8082
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: rs-port
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: rs-port
+            initialDelaySeconds: 30
+            periodSeconds: 10
+      initContainers:
+        - name: init-config-server
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup config-server.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for config-server; sleep 2; done" ]
+        - name: init-postgres-resource-service
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup postgres-resource-service.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for postgres-resource-service; sleep 2; done" ]
+      restartPolicy: Always

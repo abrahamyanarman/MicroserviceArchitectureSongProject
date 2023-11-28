@@ -1,4 +1,4 @@
-# -ti used to run build process in interactive mode
+:: -ti used to run build process in interactive mode
 docker build -t armanabr/api-gateway:0.0.3 ../api-gateway/
 docker build -t armanabr/config-server:0.0.3 ../config-server/
 docker build -t armanabr/eureka-server:0.0.3 ../eureka-server/

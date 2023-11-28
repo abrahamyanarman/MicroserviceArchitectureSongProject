@@ -16,6 +16,24 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: armanabr/api-gateway:0.0.2.2
+          image: armanabr/api-gateway:0.0.3
           ports:
-            - containerPort: 8080
+            - name: apig-port
+              containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: apig-port
+            initialDelaySeconds: 20
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: apig-port
+            initialDelaySeconds: 20
+            periodSeconds: 3
+      initContainers:
+        - name: init-eureka-server
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup eureka-server.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for eureka-server; sleep 2; done" ]
+      restartPolicy: Always

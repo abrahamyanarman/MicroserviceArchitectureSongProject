@@ -16,6 +16,19 @@ spec:
     spec:
       containers:
         - name: config-server
-          image: armanabr/config-server:0.0.2.2
+          image: armanabr/config-server:0.0.3
           ports:
-            - containerPort: 8888
+            - name: confs-port
+              containerPort: 8888
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: confs-port
+            initialDelaySeconds: 10
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: confs-port
+            initialDelaySeconds: 10
+            periodSeconds: 3

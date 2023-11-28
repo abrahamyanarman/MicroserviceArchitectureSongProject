@@ -11,6 +11,7 @@ resources:
   - resource-service/secrets.yml
   - resource-service/db-config.yml
   - song-service/secrets.yml
+  - song-service/db-config.yml
 
   - postgres/resource-service-db/postgres-resource-service-db-stateful-set.yml
   - postgres/song-service-db/postgres-song-service-db-stateful-set.yml

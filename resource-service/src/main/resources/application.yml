@@ -24,10 +24,6 @@ spring:
 eureka:
   instance:
     preferIpAddress: true
-  #    hostname: localhost
   client:
     serviceUrl:
       defaultZone: http://eureka-server:8761/eureka/
-#  instance:
-#    hostname: localhost
-#    prefer-ip-address: true

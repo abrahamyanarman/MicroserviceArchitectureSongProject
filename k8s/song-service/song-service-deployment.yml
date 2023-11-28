@@ -16,17 +16,38 @@ spec:
     spec:
       containers:
         - name: song-service
-          image: armanabr/song-service:0.0.2.3
+          image: armanabr/song-service:0.0.3
           envFrom:
             - secretRef:
                 name: song-service-secrets
             - configMapRef:
                 name: ss-pg-db-config
           ports:
-            - containerPort: 8081
+            - name: ss-port
+              containerPort: 8081
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: ss-port
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: ss-port
+            initialDelaySeconds: 30
+            periodSeconds: 10
           volumeMounts:
             - name: song-volume
               mountPath: /song
+      initContainers:
+        - name: init-config-server
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup config-server.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for config-server; sleep 2; done" ]
+        - name: init-postgres-song-service
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup postgres-song-service.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for postgres-song-service; sleep 2; done" ]
+      restartPolicy: Always
       volumes:
         - name: song-volume
           persistentVolumeClaim:
