@@ -2,12 +2,12 @@ version: '3.9'
 services:
   config-server:
     build:
-      context: ./config-server
-      dockerfile: Dockerfile
+      context: ../config-server
+      dockerfile: ../config-server/Dockerfile
     networks:
       - masp
     env_file:
-      - ./config-server/config-server.env
+      - ../config-server/config-server.env
     ports:
       - "8888:8888"
     healthcheck:
@@ -40,12 +40,12 @@ services:
       - "5433:5432"
   api-gateway:
     build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
+      context: ../api-gateway
+      dockerfile: ../api-gateway/Dockerfile
     networks:
       - masp
     env_file:
-      - ./api-gateway/api-gateway.env
+      - ../api-gateway/api-gateway.env
     ports:
       - "8080:8080"
     depends_on:
@@ -59,10 +59,10 @@ services:
       start_period: 2s
   eureka-server:
     build:
-      context: ./eureka-server
-      dockerfile: Dockerfile
+      context: ../eureka-server
+      dockerfile: ../eureka-server/Dockerfile
     env_file:
-      - ./eureka-server/eureka-server.env
+      - ../eureka-server/eureka-server.env
     networks:
       - masp
     ports:
@@ -78,10 +78,10 @@ services:
       start_period: 2s
   song-service:
     build:
-      context: ./song-service
-      dockerfile: Dockerfile
+      context: ../song-service
+      dockerfile: ../song-service/Dockerfile
     env_file:
-      - ./song-service/song-service.env
+      - ../song-service/song-service.env
     networks:
       - masp
     ports:
@@ -99,8 +99,8 @@ services:
         condition: service_started
   resource-service:
     build:
-      context: ./resource-service
-      dockerfile: Dockerfile
+      context: ../resource-service
+      dockerfile: ../resource-service/Dockerfile
     networks:
       - masp
     ports:
@@ -117,7 +117,7 @@ services:
       postgres-song-service-db:
         condition: service_started
     env_file:
-      - ./resource-service/resource-service.env
+      - ../resource-service/resource-service.env
 networks:
   masp:
     

@@ -20,6 +20,8 @@ spec:
           envFrom:
             - secretRef:
                 name: song-service-secrets
+            - configMapRef:
+                name: ss-pg-db-config
           ports:
             - containerPort: 8081
           volumeMounts:

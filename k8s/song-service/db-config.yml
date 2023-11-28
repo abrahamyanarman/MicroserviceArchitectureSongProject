@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ss-pg-db-config
+  namespace: k8s-microservice-song-project
+data:
+  SONG_SERVICE_SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-song-service:5432/song-service-db
+  SONG_SERVICE_SPRING_DATASOURCE_DRIVER_CLASS: org.postgresql.Driver
+  SONG_SERVICE_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect

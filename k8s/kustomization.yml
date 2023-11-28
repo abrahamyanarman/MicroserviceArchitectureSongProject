@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yml
+
+  - local-path-storage.yml
+
+  - postgres/resource-service-db/postgres-resource-service-db-secrets.yml
+  - postgres/song-service-db/postgres-song-service-db-secrets.yml
+  - resource-service/secrets.yml
+  - resource-service/db-config.yml
+  - song-service/secrets.yml
+
+  - postgres/resource-service-db/postgres-resource-service-db-stateful-set.yml
+  - postgres/song-service-db/postgres-song-service-db-stateful-set.yml
+
+  - postgres/resource-service-db/postgres-resource-service-db-service.yml
+  - postgres/song-service-db/postgres-song-service-db-service.yml
+
+  - song-service/manual-storage-class.yml
+  - song-service/song-persistent-volume.yml
+  - song-service/song-persistent-volume-claim.yml
+
+  - api-gateway/api-gateway-deployment.yml
+  - config-server/config-server-deployment.yml
+  - eureka-server/eureka-server-deployment.yml
+  - resource-service/resource-service-deployment.yml
+  - song-service/song-service-deployment.yml
+
+  - api-gateway/api-gateway-service.yml
+  - config-server/config-server-service.yml
+  - eureka-server/eureka-server-service.yml
+  - resource-service/resource-service-service.yml
+  - song-service/song-service-service.yml

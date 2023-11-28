@@ -20,5 +20,7 @@ spec:
           envFrom:
             - secretRef:
                 name: resource-service-secrets
+            - configMapRef:
+                name: rs-pg-db-config
           ports:
             - containerPort: 8082
