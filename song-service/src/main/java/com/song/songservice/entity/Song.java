@@ -17,11 +17,12 @@ public class Song {
     private String length;
     private String resourceId;
     private String year;
+    private String genre;
 
     public Song() {
     }
 
-    public Song(Long id, String name, String artist, String album, String length, String resourceId, String year) {
+    public Song(Long id, String name, String artist, String album, String length, String resourceId, String year, String genre) {
         this.id = id;
         this.name = name;
         this.artist = artist;
@@ -29,6 +30,7 @@ public class Song {
         this.length = length;
         this.resourceId = resourceId;
         this.year = year;
+        this.genre = genre;
     }
 
     public Long getId() {
@@ -85,5 +87,13 @@ public class Song {
 
     public void setYear(String year) {
         this.year = year;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }

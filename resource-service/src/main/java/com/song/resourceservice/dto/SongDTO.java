@@ -7,17 +7,19 @@ public class SongDTO {
     private String length;
     private String resourceId;
     private String year;
+    private String genre;
 
     public SongDTO() {
     }
 
-    public SongDTO(String name, String artist, String album, String length, String resourceId, String year) {
+    public SongDTO(String name, String artist, String album, String length, String resourceId, String year, String genre) {
         this.name = name;
         this.artist = artist;
         this.album = album;
         this.length = length;
         this.resourceId = resourceId;
         this.year = year;
+        this.genre = genre;
     }
 
     public String getName() {
@@ -66,5 +68,13 @@ public class SongDTO {
 
     public void setYear(String year) {
         this.year = year;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }

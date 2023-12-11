@@ -60,6 +60,7 @@ public class ResourceServiceImpl implements ResourceService {
             songDTO.setYear(StringUtils.defaultString(metadata.get("xmpDM:releaseDate")));
             songDTO.setName(StringUtils.defaultString(metadata.get("dc:title")));
             songDTO.setLength(StringUtils.defaultString(metadata.get("xmpDM:duration")));
+            songDTO.setGenre(StringUtils.defaultString(metadata.get("xmpDM:genre")));
             ResponseEntity<Map<String, Long>> songResponse = songServiceClient.createSong(songDTO);
 
             if (songResponse.getStatusCode().is2xxSuccessful()) {

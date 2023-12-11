@@ -31,6 +31,7 @@ public class SongServiceImpl implements SongService {
         song.setName(s.getName());
         song.setLength(s.getLength());
         song.setYear(s.getYear());
+        song.setGenre(s.getGenre());
         song.setResourceId(s.getResourceId());
         return songRepository.save(song);
     }
