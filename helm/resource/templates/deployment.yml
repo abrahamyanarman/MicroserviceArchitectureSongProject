@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: resource-service
   namespace: k8s-microservice-song-project
+  date: {{ include "resource.date" . }}
+  version: {{ include "resource.version" . }}
 spec:
   selector:
     matchLabels:
