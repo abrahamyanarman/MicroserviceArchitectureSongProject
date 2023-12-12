@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resource-service
+  namespace: k8s-microservice-song-project
+spec:
+  selector:
+    matchLabels:
+      app: resource-service
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: resource-service
+        owner: armanabr
+    spec:
+      containers:
+        - name: resource-service
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          envFrom:
+            - secretRef:
+                name: resource-service-secrets
+            - configMapRef:
+                name: rs-pg-db-config
+          ports:
+            - name: {{ .Values.container.ports.name }}
+              containerPort: {{ .Values.container.ports.containerPort }}
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: {{ .Values.container.ports.name }}
+            initialDelaySeconds: {{ .Values.container.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.container.livenessProbe.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: {{ .Values.container.ports.name }}
+            initialDelaySeconds: {{ .Values.container.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.container.livenessProbe.periodSeconds }}
+      initContainers:
+        - name: init-config-server
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup config-server.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for config-server; sleep 2; done" ]
+        - name: init-postgres-resource-service
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup postgres-resource-service.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for postgres-resource-service; sleep 2; done" ]
+      restartPolicy: Always

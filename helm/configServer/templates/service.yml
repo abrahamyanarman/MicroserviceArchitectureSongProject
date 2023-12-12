@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-server
+  namespace: k8s-microservice-song-project
+spec:
+  type: NodePort
+  selector:
+    app: config-server
+  ports:
+    - protocol: {{ .Values.service.protocol | default "TCP" }}
+      port: {{ .Values.service.ports.port }} # Port exposed by the service within the cluster
+      targetPort: {{ .Values.service.ports.targetPort }} # Port on which your application is running in the pods
+      nodePort: {{ .Values.service.ports.nodePort }}

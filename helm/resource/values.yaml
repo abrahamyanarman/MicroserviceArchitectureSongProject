@@ -1,0 +1,23 @@
+dbConfig:
+  RESOURCE_SERVICE_SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-resource-service:5432/resource-service-db
+  RESOURCE_SERVICE_SPRING_DATASOURCE_DRIVER_CLASS: org.postgresql.Driver
+  RESOURCE_SERVICE_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+image:
+  repository: armanabr/resource-service
+  tag: 0.0.4
+container:
+  ports:
+    name: rs-port
+    containerPort: 8082
+  livenessProbe:
+    initialDelaySeconds: 40
+    periodSeconds: 10
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+service:
+  ports:
+    port: 8082
+    targetPort: 8082
+    nodePort: 30004
+replicaCount: 3

@@ -1,0 +1,18 @@
+image:
+  repository: armanabr/config-server
+  tag: 0.0.3
+replicaCount: 1
+container:
+  port: 8888
+  portName: confs-port
+  livenessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 3
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 3
+service:
+  ports:
+    port: 8888
+    targetPort: 8888
+    nodePort: 30002

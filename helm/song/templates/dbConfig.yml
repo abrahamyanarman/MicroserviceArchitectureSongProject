@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ss-pg-db-config
+  namespace: k8s-microservice-song-project
+data:
+  SONG_SERVICE_SPRING_DATASOURCE_URL: {{ .Values.dbConfig.data.SONG_SERVICE_SPRING_DATASOURCE_URL }}
+  SONG_SERVICE_SPRING_DATASOURCE_DRIVER_CLASS: {{ .Values.dbConfig.data.SONG_SERVICE_SPRING_DATASOURCE_DRIVER_CLASS }}
+  SONG_SERVICE_HIBERNATE_DIALECT: {{ .Values.dbConfig.data.SONG_SERVICE_HIBERNATE_DIALECT }}

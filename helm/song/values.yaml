@@ -1,0 +1,23 @@
+image:
+  repository: armanabr/song-service
+  tag: 0.0.3
+replicaCount: 3
+container:
+  port: 8081
+  portName: ss-port
+  livenessProbe:
+    initialDelaySeconds: 40
+    periodSeconds: 10
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+service:
+  ports:
+    port: 8081
+    targetPort: 8081
+    nodePort: 30005
+dbConfig:
+  data:
+    SONG_SERVICE_SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-song-service:5432/song-service-db
+    SONG_SERVICE_SPRING_DATASOURCE_DRIVER_CLASS: org.postgresql.Driver
+    SONG_SERVICE_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect

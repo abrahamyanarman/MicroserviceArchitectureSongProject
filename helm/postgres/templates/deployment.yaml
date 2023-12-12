@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-postgres-resource-service
+  namespace: k8s-microservice-song-project
+spec:
+  serviceName: "postgres-resource-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-resource-service
+  template:
+    metadata:
+      labels:
+        app: postgres-resource-service
+    spec:
+      containers:
+        - name: postgres-resource-service
+          image: postgres:latest
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: postgres-resource-service-db-secrets
+          volumeMounts:
+            - name: postgres-resource-storage
+              mountPath: /resource/postgresql/data
+          ports:
+            - containerPort: {{ .Values.deploy.resource.container.port }}
+              name: {{ .Values.deploy.resource.container.portName }}
+          readinessProbe:
+            exec:
+              command: [ "pg_isready", "-U", "$POSTGRES_USER", "-h", "127.0.0.1", "-p", "5432" ]
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
+          livenessProbe:
+            exec:
+              command: [ "pg_isready", "-U", "$POSTGRES_USER", "-h", "127.0.0.1", "-p", "5432" ]
+            initialDelaySeconds: 20
+            timeoutSeconds: 2
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-resource-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "local-path"
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-postgres-song-service-db
+  namespace: k8s-microservice-song-project
+spec:
+  serviceName: "postgres-song-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-song-service
+  template:
+    metadata:
+      labels:
+        app: postgres-song-service
+    spec:
+      containers:
+        - name: song-service-db
+          image: postgres:latest
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: postgres-song-service-db-secrets
+          volumeMounts:
+            - name: postgres-song-storage
+              mountPath: /song/postgresql/data
+          ports:
+            - containerPort: {{ .Values.deploy.song.container.port }}
+              name: {{ .Values.deploy.song.container.portName }}
+          readinessProbe:
+            exec:
+              command: [ "pg_isready", "-U", "$POSTGRES_USER", "-h", "127.0.0.1", "-p", "5432" ]
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
+          livenessProbe:
+            exec:
+              command: [ "pg_isready", "-U", "$POSTGRES_USER", "-h", "127.0.0.1", "-p", "5432" ]
+            initialDelaySeconds: 20
+            timeoutSeconds: 2
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-song-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "local-path"
+        resources:
+          requests:
+            storage: 1Gi

@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-resource-service
+  namespace: k8s-microservice-song-project
+  labels:
+    app: postgres-resource-service
+spec:
+  clusterIP: None
+  selector:
+    app: postgres-resource-service
+  ports:
+    - protocol: {{ .Values.service.resource.protocol | default "TCP" }}
+      port: {{ .Values.service.resource.port }}
+      targetPort: {{ .Values.service.resource.targetPort }}
+      name: {{ .Values.service.resource.portName }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-song-service
+  namespace: k8s-microservice-song-project
+  labels:
+    app: postgres-song-service
+spec:
+  clusterIP: None
+  selector:
+    app: postgres-song-service
+  ports:
+    - protocol: {{ .Values.service.song.protocol | default "TCP" }}
+      port: {{ .Values.service.song.port }}
+      targetPort: {{ .Values.service.song.targetPort }}
+      name: {{ .Values.service.song.portName }}

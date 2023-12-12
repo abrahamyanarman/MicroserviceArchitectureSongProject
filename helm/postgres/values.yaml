@@ -1,0 +1,38 @@
+image:
+  song:
+    pullPolicy: IfNotPresent
+  resource:
+    pullPolicy: IfNotPresent
+service:
+  song:
+    name: postgres-resource-service
+    portName: pg-resource-sv
+    port: 5432
+    targetPort: 5432
+  resource:
+    name: postgres-song-service
+    portName: pg-song-service
+    port: 5432
+    targetPort: 5432
+replicaCount:
+  song: 1
+  resource: 1
+deploy:
+  song:
+    container:
+      portName: pg-song-service
+      port: 5432
+  resource:
+    container:
+      portName: pg-resource-sv
+      port: 5432
+secrets:
+  data:
+    song:
+      POSTGRES_DB: c29uZy1zZXJ2aWNlLWRi
+      POSTGRES_USER: dXNlcg==
+      POSTGRES_PASSWORD: cGFzc3dvcmQ=
+    resource:
+      POSTGRES_DB: cmVzb3VyY2Utc2VydmljZS1kYg==
+      POSTGRES_USER: dXNlcg==
+      POSTGRES_PASSWORD: cGFzc3dvcmQ=
