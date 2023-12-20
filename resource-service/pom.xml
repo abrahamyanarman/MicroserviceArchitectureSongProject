@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.song</groupId>
 	<artifactId>resource-service</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4-no-eureka</version>
 	<name>resource-service</name>
 	<description>Microservice Architecture Song project</description>
 	<properties>
@@ -41,8 +41,9 @@
 			<version>2.9.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.12.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

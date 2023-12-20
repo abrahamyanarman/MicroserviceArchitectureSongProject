@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-nginx-controller
+  namespace: k8s-microservice-song-project
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/proxy-body-size: "20m"
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /songs(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: song-service
+                port:
+                  number: 8081
+          - path: /resources(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: resource-service
+                port:
+                  number: 8082

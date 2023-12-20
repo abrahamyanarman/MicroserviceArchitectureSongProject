@@ -1,6 +1,6 @@
 image:
   repository: armanabr/song-service
-  tag: 0.0.3
+  tag: 0.0.3-no-eureka
 replicaCount: 3
 container:
   port: 8081

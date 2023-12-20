@@ -6,7 +6,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app: song-service-pod
+    app: song-service
   ports:
     - protocol: "TCP"
       port: 8081 # Port exposed by the service within the cluster

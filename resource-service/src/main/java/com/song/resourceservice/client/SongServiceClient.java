@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
-@FeignClient(name = "song-service")
+@FeignClient(name = "song-service", url = "http://song-service:8081")
 public interface SongServiceClient {
     @PostMapping(value = "/songs")
     ResponseEntity<Map<String, Long>> createSong(@RequestBody SongDTO song);

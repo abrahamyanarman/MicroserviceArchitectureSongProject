@@ -5,7 +5,8 @@ import com.song.resourceservice.dto.SongDTO;
 import com.song.resourceservice.entity.Resource;
 import com.song.resourceservice.repository.ResourceRepository;
 import com.song.resourceservice.service.ResourceService;
-import org.apache.commons.lang.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;

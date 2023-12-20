@@ -4,7 +4,7 @@ dbConfig:
   RESOURCE_SERVICE_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
 image:
   repository: armanabr/resource-service
-  tag: 0.0.4
+  tag: 0.0.4-no-eureka.2
 container:
   ports:
     name: rs-port
